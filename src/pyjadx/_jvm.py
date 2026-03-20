@@ -23,8 +23,11 @@ def ensure_jvm(jadx_home: str | None = None) -> None:
     str_paths = [str(p) for p in jar_paths]
 
     if jpype.isJVMStarted():
-        for path in str_paths:
-            jpype.addClassPath(path)
+        try:
+            for path in str_paths:
+                jpype.addClassPath(path)
+        except Exception as exc:
+            raise JVMError(f"Failed to add JADX JARs to classpath: {exc}") from exc
         logger.info("Added %d JADX JARs to existing JVM classpath", len(str_paths))
     else:
         try:
