@@ -1,0 +1,40 @@
+[project]
+name = "pyjadx"
+version = "0.1.0"
+description = "Python bindings for JADX — decompile Android APK/DEX to Java source."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.11"
+authors = [
+    { name = "Amruth Niranjan", email = "amruthsniranjan@gmail.com" }
+]
+keywords = [
+    "jadx", "android", "apk", "dex", "decompiler",
+    "reverse-engineering", "dalvik", "java", "kotlin"
+]
+dependencies = [
+    "jpype1>=1.5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/amruth-sn/pyjadx"
+Repository = "https://github.com/amruth-sn/pyjadx"
+Issues = "https://github.com/amruth-sn/pyjadx/issues"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyjadx"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "jvm: tests that require a running JVM (deselect with -m 'not jvm')",
+]
