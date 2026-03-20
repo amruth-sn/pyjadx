@@ -181,4 +181,4 @@ pyjadx.start(jadx_home="/opt/jadx")
 
 ## License
 
-Apache-2.0
+MIT

@@ -3,7 +3,7 @@ name = "pyjadx"
 version = "0.1.0"
 description = "Python bindings for JADX — decompile Android APK/DEX to Java source."
 readme = "README.md"
-license = { text = "Apache-2.0" }
+license = { text = "MIT" }
 requires-python = ">=3.11"
 authors = [
     { name = "Amruth Niranjan", email = "amruthsniranjan@gmail.com" }
@@ -11,6 +11,15 @@ authors = [
 keywords = [
     "jadx", "android", "apk", "dex", "decompiler",
     "reverse-engineering", "dalvik", "java", "kotlin"
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Disassemblers",
+    "Operating System :: OS Independent",
 ]
 dependencies = [
     "jpype1>=1.5.0",
