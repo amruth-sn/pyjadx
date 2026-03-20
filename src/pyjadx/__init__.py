@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from pyjadx._decompiler import Jadx
 from pyjadx._errors import (
     DecompilationError,
     JarResolutionError,
@@ -9,6 +10,7 @@ from pyjadx._errors import (
     PyjadxError,
 )
 from pyjadx._jvm import ensure_jvm as _ensure_jvm
+from pyjadx._types import JavaClass, JavaField, JavaMethod, JavaPackage
 
 __version__ = "0.1.0"
 JADX_VERSION = "1.5.5"
@@ -16,11 +18,16 @@ JADX_VERSION = "1.5.5"
 __all__: list[str] = [
     "__version__",
     "JADX_VERSION",
-    "DecompilationError",
-    "JarResolutionError",
-    "JVMError",
-    "PyjadxError",
     "start",
+    "Jadx",
+    "JavaClass",
+    "JavaMethod",
+    "JavaField",
+    "JavaPackage",
+    "PyjadxError",
+    "JVMError",
+    "JarResolutionError",
+    "DecompilationError",
 ]
 
 
