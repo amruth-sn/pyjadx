@@ -86,12 +86,14 @@ class Jadx:
 
     @property
     def classes(self) -> list[JavaClass]:
-        assert self._jadx is not None
+        if self._jadx is None:
+            raise DecompilationError("Decompiler not loaded — call load() or use as context manager")
         return [_wrap(c) for c in self._jadx.getClasses()]  # type: ignore[misc]
 
     @property
     def packages(self) -> list[JavaPackage]:
-        assert self._jadx is not None
+        if self._jadx is None:
+            raise DecompilationError("Decompiler not loaded — call load() or use as context manager")
         return [_wrap(p) for p in self._jadx.getPackages()]  # type: ignore[misc]
 
     @property
@@ -99,7 +101,8 @@ class Jadx:
         return len(self.classes)
 
     def search_class(self, full_name: str) -> JavaClass | None:
-        assert self._jadx is not None
+        if self._jadx is None:
+            raise DecompilationError("Decompiler not loaded — call load() or use as context manager")
         result = self._jadx.searchJavaClassByOrigFullName(full_name)
         if result is None:
             return None
@@ -111,5 +114,6 @@ class Jadx:
 
     @property
     def java(self) -> jpype.JObject:
-        assert self._jadx is not None
+        if self._jadx is None:
+            raise DecompilationError("Decompiler not loaded — call load() or use as context manager")
         return self._jadx

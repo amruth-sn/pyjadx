@@ -129,11 +129,6 @@ def _cache_dir() -> Path:
     return Path.home() / ".pyjadx" / "jars" / JADX_VERSION
 
 
-def _maven_url(group: str, artifact: str, version: str) -> str:
-    group_path = group.replace(".", "/")
-    return f"{_MAVEN_CENTRAL}/{group_path}/{artifact}/{version}/{artifact}-{version}.jar"
-
-
 def _jar_url(entry: JarEntry) -> str:
     group_path = entry.group.replace(".", "/")
     return (
@@ -171,12 +166,8 @@ def resolve_jars(jadx_home: str | None = None) -> list[Path]:
         lib_dir = Path(home) / "lib"
         return sorted(lib_dir.glob("*.jar"))
 
-    cache = _cache_dir()
-    cached = sorted(cache.glob("*.jar"))
-    if cached:
-        return cached
-
     manifest = JarManifest.for_version(JADX_VERSION)
+    cache = _cache_dir()
     cache.mkdir(parents=True, exist_ok=True)
     paths: list[Path] = []
     for entry in manifest.entries:

@@ -6,12 +6,15 @@ from unittest.mock import patch
 
 import pytest
 
+from pyjadx._errors import JarResolutionError
 from pyjadx._jars import (
+    _download_jar,
     JADX_VERSION,
+    JarEntry,
     JarManifest,
     resolve_jars,
     _cache_dir,
-    _maven_url,
+    _jar_url,
 )
 
 
@@ -20,16 +23,24 @@ def test_cache_dir_default():
     assert d == Path.home() / ".pyjadx" / "jars" / JADX_VERSION
 
 
-def test_maven_url_format():
-    url = _maven_url("io.github.skylot", "jadx-core", JADX_VERSION)
+def test_jar_url_format():
+    entry = JarEntry(
+        group="io.github.skylot", artifact="jadx-core",
+        version=JADX_VERSION, sha256="fake",
+    )
+    url = _jar_url(entry)
     assert "repo1.maven.org" in url
     assert "jadx-core" in url
     assert JADX_VERSION in url
     assert url.endswith(".jar")
 
 
-def test_maven_url_dots_to_slashes():
-    url = _maven_url("io.github.skylot", "jadx-core", "1.5.5")
+def test_jar_url_dots_to_slashes():
+    entry = JarEntry(
+        group="io.github.skylot", artifact="jadx-core",
+        version="1.5.5", sha256="fake",
+    )
+    url = _jar_url(entry)
     assert "/io/github/skylot/" in url
 
 
@@ -70,9 +81,6 @@ def test_resolve_jars_cached(tmp_path: Path):
 
 
 def test_download_jar_checksum_mismatch(tmp_path: Path):
-    from pyjadx._jars import _download_jar
-    from pyjadx._errors import JarResolutionError
-
     dest = tmp_path / "bad.jar"
     with patch("pyjadx._jars.urllib.request.urlretrieve") as mock_retrieve:
         mock_retrieve.side_effect = lambda url, filename: Path(filename).write_bytes(b"wrong content")
@@ -82,8 +90,6 @@ def test_download_jar_checksum_mismatch(tmp_path: Path):
 
 
 def test_download_jar_success(tmp_path: Path):
-    from pyjadx._jars import _download_jar
-
     content = b"valid jar content"
     expected = hashlib.sha256(content).hexdigest()
     dest = tmp_path / "good.jar"

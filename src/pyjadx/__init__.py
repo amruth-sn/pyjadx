@@ -12,8 +12,9 @@ from pyjadx._errors import (
 from pyjadx._jvm import ensure_jvm as _ensure_jvm
 from pyjadx._types import JavaClass, JavaField, JavaMethod, JavaPackage
 
+from pyjadx._jars import JADX_VERSION
+
 __version__ = "0.1.0"
-JADX_VERSION = "1.5.5"
 
 __all__: list[str] = [
     "__version__",
